@@ -17,7 +17,7 @@ const fetchUserData = async (): Promise<UserData | null> => {
       credentials: "include",
     });
     if (!res.ok) throw new Error("Failed to fetch user data");
-    console.log("res", res);
+    console.log("res", await res.json());
     return await res.json();
   } catch (error) {
     console.error(error);

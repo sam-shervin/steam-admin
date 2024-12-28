@@ -17,7 +17,6 @@ const fetchUserData = async (): Promise<UserData | null> => {
       credentials: "include",
     });
     if (!res.ok) throw new Error("Failed to fetch user data");
-    console.log("res", await res.json());
     return await res.json();
   } catch (error) {
     console.error(error);
@@ -31,12 +30,13 @@ export default function Page() {
   useEffect(() => {
     const getUserData = async () => {
       const userData = await fetchUserData();
+      console.log("userdata", userData);
       if (!userData) {
-        console.log("redirecting to login");
+        console.log("Userdata is null");
         return;
       }
       if (!userData.isAdmin || !userData.email_verified) {
-        console.log("redirecting to home");
+        console.log("User is not admin or email is not verified");
         return;
       }
       setData(userData);

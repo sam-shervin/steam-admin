@@ -17,6 +17,7 @@ const fetchUserData = async (): Promise<UserData | null> => {
       credentials: "include",
     });
     if (!res.ok) throw new Error("Failed to fetch user data");
+    console.log("res", res);
     return await res.json();
   } catch (error) {
     console.error(error);
@@ -35,7 +36,7 @@ export default function Page() {
         return;
       }
       if (!userData.isAdmin || !userData.email_verified) {
-      console.log("redirecting to home");
+        console.log("redirecting to home");
         return;
       }
       setData(userData);
@@ -56,5 +57,3 @@ export default function Page() {
     </div>
   );
 }
-
-

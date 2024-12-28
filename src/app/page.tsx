@@ -51,9 +51,8 @@ export default function Page() {
 
   return (
     <div>
-      <h1>My Data</h1>
+      <h1>Welcome Admin!</h1>
       <pre>{data.email}</pre>
-      <Link href="/page2">Go to Page 2</Link>
     </div>
   );
 }

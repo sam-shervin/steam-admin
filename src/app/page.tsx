@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 interface UserData {
   email: string;
@@ -25,34 +24,25 @@ const fetchUserData = async (): Promise<UserData | null> => {
   }
 };
 
-const redirectToLogin = (router: ReturnType<typeof useRouter>) => {
-  //router.push("https://api.steams.social/login");
-};
-
-const redirectToHome = (router: ReturnType<typeof useRouter>) => {
-  //router.push("https://steams.social");
-};
-
 export default function Page() {
-  const router = useRouter();
   const [data, setData] = useState<UserData | null>(null);
 
   useEffect(() => {
     const getUserData = async () => {
       const userData = await fetchUserData();
       if (!userData) {
-        redirectToLogin(router);
+        console.log("redirecting to login");
         return;
       }
       if (!userData.isAdmin || !userData.email_verified) {
-        redirectToHome(router);
+      console.log("redirecting to home");
         return;
       }
       setData(userData);
     };
 
     getUserData();
-  }, [router]);
+  }, []);
 
   if (!data) {
     return <p>Loading...</p>;

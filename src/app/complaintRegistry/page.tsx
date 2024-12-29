@@ -73,15 +73,21 @@ const ComplaintRegistryPage = () => {
   };
 
   return (
-    <div>
-      <h1>Complaint Registry</h1>
-      <ul>
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <h1 className="text-3xl font-bold mb-6 text-center text-navy-500">
+        Complaint Registry
+      </h1>
+      <ul className="space-y-4">
         {complaints.map((complaint) => (
-          <li key={complaint.complaintUID}>
-            <h2>{complaint.email}</h2>
-            <p>{complaint.issue}</p>
+          <li
+            key={complaint.complaintUID}
+            className="bg-gray-800 p-4 rounded-lg shadow-md"
+          >
+            <h2 className="text-xl font-semibold">{complaint.email}</h2>
+            <p className="text-gray-400">{complaint.issue}</p>
             <button
               onClick={() => setSelectedComplaint(complaint.complaintUID)}
+              className="mt-2 bg-navy-500 hover:bg-navy-600 text-white py-2 px-4 rounded-md"
             >
               Update Status
             </button>
@@ -89,11 +95,14 @@ const ComplaintRegistryPage = () => {
         ))}
       </ul>
       {selectedComplaint !== null && (
-        <div>
-          <h2>Update Complaint Status</h2>
+        <div className="mt-6 bg-gray-800 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-4">
+            Update Complaint Status
+          </h2>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as ComplaintStatus)}
+            className="w-full p-2 mb-4 bg-gray-700 text-white rounded-md"
           >
             <option value="">Select Status</option>
             <option value={ComplaintStatus.NOT_VIEWED}>NOT_VIEWED</option>
@@ -104,8 +113,12 @@ const ComplaintRegistryPage = () => {
             value={response}
             onChange={(e) => setResponse(e.target.value)}
             placeholder="Add a response"
+            className="w-full p-2 mb-4 bg-gray-700 text-white rounded-md"
           />
-          <button onClick={() => updateComplaintStatus(selectedComplaint)}>
+          <button
+            onClick={() => updateComplaintStatus(selectedComplaint)}
+            className="bg-navy-500 hover:bg-navy-600 text-white py-2 px-4 rounded-md"
+          >
             Submit
           </button>
         </div>

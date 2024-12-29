@@ -15,12 +15,18 @@ interface Complaint {
   };
 }
 
+enum ComplaintStatus {
+  RESOLVED = "RESOLVED",
+  PENDING = "PENDING",
+  NOT_VIEWED = "NOT_VIEWED",
+}
+
 const ComplaintRegistryPage = () => {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [selectedComplaint, setSelectedComplaint] = useState<number | null>(
     null
   );
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<ComplaintStatus | "">("");
   const [response, setResponse] = useState<string>("");
 
   useEffect(() => {
@@ -85,13 +91,14 @@ const ComplaintRegistryPage = () => {
       {selectedComplaint !== null && (
         <div>
           <h2>Update Complaint Status</h2>
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value as ComplaintStatus)}
+          >
             <option value="">Select Status</option>
-            <option value="NOT_VIEWED">NOT_VIEWED</option>
-            <option value="VIEWED">VIEWED</option>
-            <option value="IN_PROGRESS">IN_PROGRESS</option>
-            <option value="RESOLVED">RESOLVED</option>
-            <option value="CLOSED">CLOSED</option>
+            <option value={ComplaintStatus.NOT_VIEWED}>NOT_VIEWED</option>
+            <option value={ComplaintStatus.PENDING}>PENDING</option>
+            <option value={ComplaintStatus.RESOLVED}>RESOLVED</option>
           </select>
           <textarea
             value={response}

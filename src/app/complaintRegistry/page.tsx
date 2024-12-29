@@ -2,35 +2,26 @@
 
 import { useState, useEffect } from "react";
 
-/*
-app.get("/complaints", async (req, res) => {
-  if (!req.oidc.isAuthenticated()) {
-    return res.status(401).json({ error: "Not authenticated" });
-  }
-  const adminUser = req.oidc.user.email;
+interface Complaint {
+  complaintUID: number;
+  email: string;
+  issue: string;
+  user: {
+    email: string;
+    name: string;
+    email_verified: boolean;
+    picture: string;
+    isAdmin: boolean;
+  };
+}
 
-  // Check if user is an admin
-  const isAdmin = await prisma.user.findUnique({
-    where: { email: adminUser },
-  }).isAdmin;
-
-  if (!isAdmin) {
-    return res.status(403).json({ error: "Not authorized" });
-  }
-
-  const complaints = await prisma.complaint.findMany({
-    include: { user: true },
-  });
-
-  res.status(200).json(complaints);
-});
-
-write complaints type interface
-*/
-
-const ComplainRegistryPage = () => {
-  // show all the complaints
-  const [complaints, setComplaints] = useState([]);
+const ComplaintRegistryPage = () => {
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
+  const [selectedComplaint, setSelectedComplaint] = useState<number | null>(
+    null
+  );
+  const [status, setStatus] = useState<string>("");
+  const [response, setResponse] = useState<string>("");
 
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -39,9 +30,7 @@ const ComplainRegistryPage = () => {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Failed to fetch complaints");
-        console.log(await res.json());
         setComplaints(await res.json());
-        console.log(complaints);
       } catch (error) {
         console.error(error);
       }
@@ -49,6 +38,73 @@ const ComplainRegistryPage = () => {
 
     fetchComplaints();
   }, []);
+
+  const updateComplaintStatus = async (complaintUID: number) => {
+    try {
+      const res = await fetch("https://api.steams.social/complaintStatus", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ complaintUID, status, response }),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to update complaint status");
+      alert("Complaint status updated successfully!");
+      setStatus("");
+      setResponse("");
+      setSelectedComplaint(null);
+      // Refresh complaints list
+      const updatedComplaints = await fetch(
+        "https://api.steams.social/complaints",
+        {
+          credentials: "include",
+        }
+      ).then((res) => res.json());
+      setComplaints(updatedComplaints);
+    } catch (error) {
+      console.error(error);
+      alert("Error updating complaint status");
+    }
+  };
+
+  return (
+    <div>
+      <h1>Complaint Registry</h1>
+      <ul>
+        {complaints.map((complaint) => (
+          <li key={complaint.complaintUID}>
+            <h2>{complaint.email}</h2>
+            <p>{complaint.issue}</p>
+            <button
+              onClick={() => setSelectedComplaint(complaint.complaintUID)}
+            >
+              Update Status
+            </button>
+          </li>
+        ))}
+      </ul>
+      {selectedComplaint !== null && (
+        <div>
+          <h2>Update Complaint Status</h2>
+          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option value="">Select Status</option>
+            <option value="NOT_VIEWED">NOT_VIEWED</option>
+            <option value="VIEWED">VIEWED</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="RESOLVED">RESOLVED</option>
+            <option value="CLOSED">CLOSED</option>
+          </select>
+          <textarea
+            value={response}
+            onChange={(e) => setResponse(e.target.value)}
+            placeholder="Add a response"
+          />
+          <button onClick={() => updateComplaintStatus(selectedComplaint)}>
+            Submit
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
-export default ComplainRegistryPage;
+export default ComplaintRegistryPage;

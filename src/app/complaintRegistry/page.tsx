@@ -41,6 +41,7 @@ const ComplaintRegistryPage = () => {
         });
         if (!res.ok) throw new Error("Failed to fetch complaints");
         setComplaints(await res.json());
+        console.log("complaints", complaints);
       } catch (error) {
         console.error(error);
       }

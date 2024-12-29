@@ -8,14 +8,14 @@ interface Complaint {
   issue: string;
   user: {
     email: string;
-    name: string;
+    name?: string;
     email_verified: boolean;
-    picture: string;
-    isAdmin: boolean;
+    picture?: string;
+    isAdmin?: boolean;
   };
-  ComplaintAdmin: {
+  complaintAdmins: {
     status: ComplaintStatus;
-    response: string;
+    response?: string;
   }[];
 }
 
@@ -40,7 +40,6 @@ const ComplaintRegistryPage = () => {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Failed to fetch complaints");
-        console.log(await res.json());
         setComplaints(await res.json());
       } catch (error) {
         console.error(error);
@@ -90,6 +89,30 @@ const ComplaintRegistryPage = () => {
           >
             <h2 className="text-xl font-semibold">{complaint.email}</h2>
             <p className="text-gray-400">{complaint.issue}</p>
+            <div className="mt-2">
+              <h3 className="text-lg font-semibold">User Details:</h3>
+              <p className="text-gray-400">Name: {complaint.user.name}</p>
+              <p className="text-gray-400">
+                Email Verified: {complaint.user.email_verified ? "Yes" : "No"}
+              </p>
+              <p className="text-gray-400">
+                Admin: {complaint.user.isAdmin ? "Yes" : "No"}
+              </p>
+              <img
+                src={complaint.user.picture}
+                alt={complaint.user.name}
+                className="w-16 h-16 rounded-full mt-2"
+              />
+            </div>
+            <div className="mt-2">
+              <h3 className="text-lg font-semibold">Admin Responses:</h3>
+              {complaint.complaintAdmins.map((admin, index) => (
+                <div key={`${complaint.complaintUID}-${index}`} className="mt-2">
+                  <p className="text-gray-400">Status: {admin.status}</p>
+                  <p className="text-gray-400">Response: {admin.response}</p>
+                </div>
+              ))}
+            </div>
             <button
               onClick={() => setSelectedComplaint(complaint.complaintUID)}
               className="mt-2 bg-navy-500 hover:bg-navy-600 text-white py-2 px-4 rounded-md"

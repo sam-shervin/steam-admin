@@ -13,7 +13,7 @@ interface UserData {
 
 const fetchUserData = async (): Promise<UserData | null> => {
   try {
-    const res = await fetch("https://api.steams.social/self", {
+    const res = await fetch("http://localhost:8032/self", {
       credentials: "include",
     });
     if (!res.ok) throw new Error("Failed to fetch user data");

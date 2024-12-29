@@ -13,6 +13,10 @@ interface Complaint {
     picture: string;
     isAdmin: boolean;
   };
+  ComplaintAdmin: {
+    status: ComplaintStatus;
+    response: string;
+  }[];
 }
 
 enum ComplaintStatus {

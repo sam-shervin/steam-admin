@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Admin Page: Pollution Complaint Management System in Association with STEAM
 
-## Getting Started
+### STEAM - Satellite Tracking for Evaluation and Analysis of Marinery
 
-First, run the development server:
+The **Admin Page** serves as the backbone of the pollution complaint management platform, developed to address and resolve pollution-related complaints in nearby water bodies. This tool integrates seamlessly with STEAM's capabilities, enhancing environmental monitoring and administrative efficiency.
+
+Key Features of the Admin Page include:
+
+- **Complaint Oversight and Management**: 
+  Administrators can view and manage user-reported pollution complaints through an organized dashboard.
+  
+- **Dynamic Complaint Status Updates**: 
+  Real-time tracking and updates ensure transparency and build community trust.
+  
+- **User Engagement via Response System**: 
+  Admins can directly communicate resolutions or progress updates to users for each complaint.
+  
+- **Historical Record Maintenance**: 
+  All actions and resolutions are documented for analysis and reporting, promoting accountability.
+
+This system supports environmental sustainability by efficiently addressing community concerns and leveraging the advanced capabilities of STEAM for real-time monitoring.
+
+---
+
+## Demo Interface
+
+Below are examples of the Admin Page's interface, showcasing its design and features:
+
+![Admin Interface View 1](image-3.png)  
+![Admin Interface View 2](image-2.png)  
+![Admin Interface View 3](image.png)  
+
+The interface is designed for ease of use while maintaining a professional, data-driven layout to optimize administrative workflows.
+
+---
+
+## Backend Architecture and Deployment
+
+The backend architecture is engineered for reliability, security, and scalability. Below are its primary components:
+
+1. **Hosting and Tunneling**:
+   - The backend is hosted locally using **Docker**, ensuring a modular and controlled environment.
+   - Public accessibility is facilitated via **Cloudflared** tunneling to the domain `https://api.steams.social`.
+
+2. **Domain and Subdomain Configuration**:
+   - **Subdomain**: `api`  
+   - **Domain**: `steams.social`  
+
+3. **SSL Termination**:
+   - **NGINX** is utilized for SSL termination, enforcing secure HTTPS communication.
+   - The certificates are integrated within Docker, ensuring encrypted data exchanges.
+
+4. **Cloudflare DNS Integration**:
+   - DNS settings are managed via Cloudflare, streamlining the connection to the public domain and providing robust performance and security.
+
+---
+
+## Running the Application
+
+To start the development server, use the following commands:
 
 ```bash
+pnpm run dev
+# or
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+These commands initiate the backend locally, supporting testing and further development of the platform.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Hosted Platform
 
-## Learn More
+The Admin Page is deployed and accessible at the following URL:  
+[https://admin.steams.social/](https://admin.steams.social/)  
 
-To learn more about Next.js, take a look at the following resources:
+This Cloudflare-hosted page ensures high availability, speed, and security for administrators.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Technical Highlights
 
-## Deploy on Vercel
+- **Integration with Docker**: Simplifies the deployment process and ensures a portable and consistent runtime environment.
+- **Secure HTTPS Communication**: SSL termination via NGINX and DNS integration with Cloudflare guarantees data integrity.
+- **Scalable Tunneling via Cloudflared**: Connects the locally-hosted backend to a global audience without exposing vulnerabilities.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
